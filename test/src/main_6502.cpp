@@ -1,4 +1,5 @@
-#include "main_6502.h"
+#if 0
+#include "../../lib/src/main_6502.h"
 
 int main() {
   Mem mem;
@@ -11,6 +12,7 @@ int main() {
   mem[0x4242] = CPU::INS_LDA_IM;
   mem[0x4243] = 0x84;
   // end - inline a little program
-  cpu.Execute(3, mem);
+  cpu.Execute(9, mem);
   return 0;
 }
+#endif
