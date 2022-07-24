@@ -15,14 +15,17 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-add_executable(
-	hello_test
-	hello_test.cc
-)
+set (M6502_SOURCES
+	"src/main_6502.cpp"
+	"src/6502Test.cpp")
+
+source_group("src" FILES ${M6502_SOURCES}	)
+
+add_executable(M6502Test ${M6502_SOURCES}	)
 target_link_libraries(
-  hello_test
+  M6502Test
   GTest::gtest_main
 )
 
 include(GoogleTest)
-gtest_discover_tests(hello_test)
+gtest_discover_tests(M6502Test)
