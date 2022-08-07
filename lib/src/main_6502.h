@@ -123,7 +123,7 @@ struct CPU {
         Cycles--;
         A = ReadByte(Cycles, ZeroPageAddr, memory);
         LDASetStatus();
-      }
+      } break;
 
       case INS_JSR: {
         Word SubAddr = FetchWord(Cycles, memory);
@@ -131,7 +131,7 @@ struct CPU {
         memory.WriteWord(PC - 1, SP, Cycles);
         PC = SubAddr;
         Cycles--;
-      }
+      } break;
 
       default: {
         printf("Instruction not handled %d ", Ins);

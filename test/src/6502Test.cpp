@@ -36,13 +36,13 @@ TEST_F(M6502Test, LDAZeroPageCanLoadAValueIntoTheARegister) {
   EXPECT_EQ(cpu.A, 0x37);
 }
 
-TEST_F(M6502Test, LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps) {
+TEST_F(M6502Test, LDAZeroPageXCanLoadAValueIntoTheARegister) {
   // given:
-  cpu.X = 0xFF;
+  cpu.X = 5;
 
   mem[0xFFFC] = CPU::INS_LDA_ZPX;
-  mem[0xFFFD] = 0x80;
-  mem[0x007F] = 0x37;
+  mem[0xFFFD] = 0x42;
+  mem[0x0047] = 0x37;
 
   // when:
   cpu.Execute(4, mem);
@@ -50,3 +50,32 @@ TEST_F(M6502Test, LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps) {
   // then:
   EXPECT_EQ(cpu.A, 0x37);
 }
+
+/*TEST_F(M6502Test, LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps) {
+  cpu.X = 0xFF;
+
+  mem[0xFFFC] = CPU::INS_LDA_ZPX;
+  mem[0xFFFD] = 0x80;
+  mem[0x007F] = 0x37;
+
+  cpu.Execute(4, mem);
+
+  EXPECT_EQ(cpu.A, 0x37);
+}*/
+
+#if 0
+int main() {
+  Mem mem;
+  CPU cpu;
+  cpu.Reset(mem);
+  // start - inline a little program
+  mem[0xFFFC] = CPU::INS_JSR;
+  mem[0xFFFD] = 0x42;
+  mem[0xFFFE] = 0x42;
+  mem[0x4242] = CPU::INS_LDA_IM;
+  mem[0x4243] = 0x84;
+  // end - inline a little program
+  cpu.Execute(3, mem);
+  return 0;
+}
+#endif
