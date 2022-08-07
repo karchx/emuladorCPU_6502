@@ -17,10 +17,19 @@ TEST_F(M6502Test, LDAImmediateCanLoadAValueIntoTheARegister) {
   mem[0xFFFD] = 0x84;
 
   // when:
-  cpu.Execute(2, mem);
+  CPU CPUCopy = cpu;
+  s32 CyclesUses = cpu.Execute(2, mem);
 
   // then:
   EXPECT_EQ(cpu.A, 0x84);
+  EXPECT_EQ(CyclesUses, 2);
+  EXPECT_FALSE(cpu.Z);
+  EXPECT_TRUE(cpu.N);
+  EXPECT_EQ(cpu.C, CPUCopy.C);
+  EXPECT_EQ(cpu.I, CPUCopy.I);
+  EXPECT_EQ(cpu.D, CPUCopy.D);
+  EXPECT_EQ(cpu.B, CPUCopy.B);
+  EXPECT_EQ(cpu.V, CPUCopy.V);
 }
 
 TEST_F(M6502Test, LDAZeroPageCanLoadAValueIntoTheARegister) {
@@ -30,10 +39,19 @@ TEST_F(M6502Test, LDAZeroPageCanLoadAValueIntoTheARegister) {
   mem[0x0042] = 0x37;
 
   // when:
-  cpu.Execute(3, mem);
+  CPU CPUCopy = cpu;
+  s32 CyclesUses = cpu.Execute(3, mem);
 
   // then:
   EXPECT_EQ(cpu.A, 0x37);
+  EXPECT_EQ(CyclesUses, 3);
+  EXPECT_FALSE(cpu.Z);
+  EXPECT_FALSE(cpu.N);
+  EXPECT_EQ(cpu.C, CPUCopy.C);
+  EXPECT_EQ(cpu.I, CPUCopy.I);
+  EXPECT_EQ(cpu.D, CPUCopy.D);
+  EXPECT_EQ(cpu.B, CPUCopy.B);
+  EXPECT_EQ(cpu.V, CPUCopy.V);
 }
 
 TEST_F(M6502Test, LDAZeroPageXCanLoadAValueIntoTheARegister) {
@@ -45,23 +63,41 @@ TEST_F(M6502Test, LDAZeroPageXCanLoadAValueIntoTheARegister) {
   mem[0x0047] = 0x37;
 
   // when:
-  cpu.Execute(4, mem);
+  CPU CPUCopy = cpu;
+  s32 CyclesUses = cpu.Execute(4, mem);
 
   // then:
   EXPECT_EQ(cpu.A, 0x37);
+  EXPECT_EQ(CyclesUses, 4);
+  EXPECT_FALSE(cpu.Z);
+  EXPECT_FALSE(cpu.N);
+  EXPECT_EQ(cpu.C, CPUCopy.C);
+  EXPECT_EQ(cpu.I, CPUCopy.I);
+  EXPECT_EQ(cpu.D, CPUCopy.D);
+  EXPECT_EQ(cpu.B, CPUCopy.B);
+  EXPECT_EQ(cpu.V, CPUCopy.V);
 }
 
-/*TEST_F(M6502Test, LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps) {
+TEST_F(M6502Test, LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps) {
   cpu.X = 0xFF;
 
   mem[0xFFFC] = CPU::INS_LDA_ZPX;
   mem[0xFFFD] = 0x80;
   mem[0x007F] = 0x37;
 
-  cpu.Execute(4, mem);
+  CPU CPUCopy = cpu;
+  s32 CyclesUses = cpu.Execute(4, mem);
 
   EXPECT_EQ(cpu.A, 0x37);
-}*/
+  EXPECT_EQ(CyclesUses, 4);
+  EXPECT_FALSE(cpu.Z);
+  EXPECT_FALSE(cpu.N);
+  EXPECT_EQ(cpu.C, CPUCopy.C);
+  EXPECT_EQ(cpu.I, CPUCopy.I);
+  EXPECT_EQ(cpu.D, CPUCopy.D);
+  EXPECT_EQ(cpu.B, CPUCopy.B);
+  EXPECT_EQ(cpu.V, CPUCopy.V);
+}
 
 #if 0
 int main() {
